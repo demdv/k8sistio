@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ $.Values.virtualServiceName }}
+spec:
+  hosts:
+  - '*'
+  gateways:
+    - {{ $.Values.gatewayName }}
+  http:
+    - route:
+      - destination:
+          host: {{ $.Values.serviceName }}.devnginx.svc.cluster.local
+          port:
+            number: 88
+        weight: 50
+      - destination:
+          host: hello-service-demonginx.demonginx.svc.cluster.local
+          port:
+            number: 88
+        weight: 50
